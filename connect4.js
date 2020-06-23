@@ -75,6 +75,34 @@ class Game {
   endGame(msg) {
     alert(msg);
   }
+  /** handleClick: handle click of column top to play piece */
+  handleClick(evt) {
+    // get x from ID of clicked cell
+    const x = +evt.target.id;
+
+    // get next spot in column (if none, ignore click)
+    const y = findSpotForCol(x);
+    if (y === null) {
+      return;
+    }
+
+    // place piece in board and add to HTML table
+    boardInMemory[y][x] = this.currPlayer;
+    placeInTable(y, x);
+
+    // check for win
+    if (checkForWin()) {
+      return endGame(`Player ${this.currPlayer} won!`);
+    }
+
+    // check for tie
+    if (boardInMemory.every((row) => row.every((cell) => cell))) {
+      return endGame("Tie!");
+    }
+
+    // switch players
+    this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+  }
 }
 
 new Game(6, 7); // assuming constructor takes height, width

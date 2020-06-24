@@ -10,9 +10,8 @@ class Game {
     this.HEIGHT = height;
     this.WIDTH = width;
     this.boardInMemory = []; // array of rows, each row is array of cells  (board[y][x])
-    this.currPlayer = 1; // active player: 1 or 2
-    this.allowTurn = true;
     this.htmlBoard = document.getElementById("htmlBoard");
+    this.currPlayer = 1; // active player: 1 or 2
     /** makeBoard: create in-JS board structure:
      *   board = array of rows, each row is array of cells  (board[y][x])
      */
@@ -75,10 +74,12 @@ class Game {
   }
   /** endGame: announce game end */
   endGame(msg) {
+    this.gameOver = true;
     alert(msg);
   }
   /** handleClick: handle click of column top to play piece */
   handleClick(evt) {
+    if (this.gameOver) return;
     // get x from ID of clicked cell
     const x = +evt.target.id;
 
@@ -112,7 +113,6 @@ class Game {
     //  - returns true if all are legal coordinates & all match currPlayer
 
     // use arrow function for _win so 'this' will refer to the Game instance
-    console.log("THIS 1: ", this);
     const _win = (cells) =>
       cells.every(
         ([y, x]) =>
@@ -161,4 +161,9 @@ class Game {
   }
 }
 
+// Add a button to start/restart the game
+const startButton = document.querySelector("#start-game");
+startButton.addEventListener("click", function () {
+  location.reload();
+});
 let game = new Game(6, 7); // assuming constructor takes height, width

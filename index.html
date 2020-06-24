@@ -9,8 +9,19 @@
   <body>
     <!-- <h1>Play Connect 4!</h1>
     <h2>Player <span id="turn"></span> Turn</h2> -->
+    <!-- <form action="" method="post" class="form-player-colors"> -->
+    <!-- <div class="form-player-colors"> -->
+    <label for="p1-color">Player 1 color: </label>
+    <input type="color" name="p1-color" id="p1-color" required />
+
+    <label for="p2-color">Player 2 color: </label>
+    <input type="color" name="p2-color" id="p2-color" required />
+
+    <button id="start-game">Start Game</button>
+    <!-- <input type="submit" value="Start Game!" id="start-game" /> -->
+    <!-- </div> -->
+    <!-- </form> -->
     <div id="game">
-      <button id="start-game">Start Game</button>
       <table id="htmlBoard"></table>
     </div>
 

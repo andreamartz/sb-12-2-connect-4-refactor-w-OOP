@@ -6,20 +6,22 @@
  */
 
 class Game {
-  constructor(height = 6, width = 7) {
+  constructor(player1, player2, height = 6, width = 7) {
+    this.players = [player1, player2];
+    console.log(this.players);
     this.HEIGHT = height;
     this.WIDTH = width;
-    this.boardInMemory = []; // array of rows, each row is array of cells  (board[y][x])
     this.htmlBoard = document.getElementById("htmlBoard");
-    this.currPlayer = 1; // active player: 1 or 2
+    this.currPlayer = this.players[0]; // active player: 1 or 2
     /** makeBoard: create in-JS board structure:
      *   board = array of rows, each row is array of cells  (board[y][x])
      */
-    this.gameOver = false;
     this.makeBoard();
     this.makeHtmlBoard();
+    this.gameOver = false;
   }
   makeBoard() {
+    this.boardInMemory = []; // array of rows, each row is array of cells  (board[y][x])
     for (let y = 0; y < this.HEIGHT; y++) {
       this.boardInMemory.push(Array.from({ length: this.WIDTH }));
     }
@@ -27,6 +29,7 @@ class Game {
   /** makeHtmlBoard: make HTML table and row of column tops. */
   makeHtmlBoard() {
     // make column tops (clickable area for adding a piece to that column)
+    this.htmlBoard.innerHTML = "";
     const top = document.createElement("tr");
     top.setAttribute("id", "column-top");
     const handleClickBound = this.handleClick.bind(this);
@@ -66,8 +69,9 @@ class Game {
   placeInTable(y, x) {
     const piece = document.createElement("div");
     piece.classList.add("piece");
-    piece.classList.add(`p${this.currPlayer}`);
-    piece.style.top = -50 * (y + 2);
+    piece.style.backgroundColor = this.currPlayer.color;
+    // piece.classList.add(`player${this.players.indexOf(this.currPlayer) + 1}`);
+    piece.style.top = -52 * (y + 1) + "px";
 
     const spot = document.getElementById(`${y}-${x}`);
     spot.append(piece);
@@ -104,7 +108,8 @@ class Game {
     }
 
     // switch players
-    this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+    this.currPlayer =
+      this.currPlayer === this.players[0] ? this.players[1] : this.players[0];
   }
   /** checkForWin: check board cell-by-cell for "does a win start here?" */
   checkForWin() {
@@ -161,9 +166,22 @@ class Game {
   }
 }
 
+class Player {
+  constructor(color) {
+    this.color = color;
+  }
+}
+
 // Add a button to start/restart the game
 const startButton = document.querySelector("#start-game");
 startButton.addEventListener("click", function () {
-  location.reload();
+  color1 = document.querySelector("#p1-color").value;
+  color2 = document.querySelector("#p2-color").value;
+  console.log(color1, color2);
+  const player1 = new Player(color1);
+  console.log(player1);
+  const player2 = new Player(color2);
+  console.log(player2);
+
+  new Game(player1, player2, 6, 7); // assuming constructor takes height, width
 });
-let game = new Game(6, 7); // assuming constructor takes height, width

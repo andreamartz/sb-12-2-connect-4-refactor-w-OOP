@@ -8,7 +8,6 @@
 class Game {
   constructor(player1, player2, height = 6, width = 7) {
     this.players = [player1, player2];
-    console.log(this.players);
     this.HEIGHT = height;
     this.WIDTH = width;
     this.htmlBoard = document.getElementById("htmlBoard");
@@ -99,7 +98,7 @@ class Game {
 
     // check for win
     if (this.checkForWin()) {
-      return this.endGame(`Player ${this.currPlayer} won!`);
+      return this.endGame(`Player ${this.currPlayer.id} won!`);
     }
 
     // check for tie
@@ -167,21 +166,20 @@ class Game {
 }
 
 class Player {
-  constructor(color) {
+  constructor(id, color) {
+    this.id = id;
     this.color = color;
   }
 }
-
+let color1 = document.querySelector("#p1-color").value;
+let color2 = document.querySelector("#p2-color").value;
 // Add a button to start/restart the game
 const startButton = document.querySelector("#start-game");
 startButton.addEventListener("click", function () {
   color1 = document.querySelector("#p1-color").value;
   color2 = document.querySelector("#p2-color").value;
-  console.log(color1, color2);
-  const player1 = new Player(color1);
-  console.log(player1);
-  const player2 = new Player(color2);
-  console.log(player2);
+  const player1 = new Player("1", color1);
+  const player2 = new Player("2", color2);
 
-  new Game(player1, player2, 6, 7); // assuming constructor takes height, width
+  new Game(player1, player2, 6, 7);
 });

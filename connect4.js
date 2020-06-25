@@ -33,7 +33,7 @@ class Game {
     const top = document.createElement("tr");
     top.setAttribute("id", "column-top");
     const handleClickBound = this.handleClick.bind(this);
-    top.addEventListener("click", this.handleClick.bind(this));
+    top.addEventListener("click", handleClickBound);
 
     for (let x = 0; x < this.WIDTH; x++) {
       const headCell = document.createElement("td");
@@ -79,7 +79,7 @@ class Game {
   /** endGame: announce game end */
   endGame(msg) {
     this.gameOver = true;
-    alert(msg);
+    setTimeout(() => alert(msg), 1000);
   }
   /** handleClick: handle click of column top to play piece */
   handleClick(evt) {
